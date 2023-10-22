@@ -15,14 +15,14 @@ func New() Cache {
 /*
 Allows to create new value in memory cache, where key is uniq string and value any interface
 */
-func (cache Cache) Set(key string, value interface{}) {
+func (cache *Cache) Set(key string, value interface{}) {
 	cache.keys[key] = value
 }
 
 /*
 Allows to get value from memory cache based on key
 */
-func (cache Cache) Get(key string) interface{} {
+func (cache *Cache) Get(key string) interface{} {
 	if _, ok := cache.keys[key]; ok {
 		return cache.keys[key]
 	}
@@ -33,7 +33,7 @@ func (cache Cache) Get(key string) interface{} {
 /*
 Allows to delete key from memory cache
 */
-func (cache Cache) Delete(key string) {
+func (cache *Cache) Delete(key string) {
 	if _, ok := cache.keys[key]; ok {
 		delete(cache.keys, key)
 		fmt.Printf("Key '%s' successfully deleted from the memory cache", key)
