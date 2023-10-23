@@ -1,6 +1,8 @@
 package cache
 
-import "fmt"
+import (
+	"errors"
+)
 
 type Cache struct {
 	keys map[string]interface{}
@@ -22,22 +24,21 @@ func (cache *Cache) Set(key string, value interface{}) {
 /*
 Allows to get value from memory cache based on key
 */
-func (cache *Cache) Get(key string) interface{} {
+func (cache *Cache) Get(key string) (interface{}, error) {
 	if _, ok := cache.keys[key]; ok {
-		return cache.keys[key]
+		return cache.keys[key], nil
 	}
-	fmt.Printf("Key '%s' does not exist in memory cache", key)
-	return nil
+	return nil, errors.New(KEY_DOES_NOT_EXIST)
 }
 
 /*
 Allows to delete key from memory cache
 */
-func (cache *Cache) Delete(key string) {
+func (cache *Cache) Delete(key string) error {
 	if _, ok := cache.keys[key]; ok {
 		delete(cache.keys, key)
-		fmt.Printf("Key '%s' successfully deleted from the memory cache", key)
+		return nil
 	} else {
-		fmt.Printf("Key '%s' does not exist in memory cache", key)
+		return errors.New(KEY_DOES_NOT_EXIST)
 	}
 }
